@@ -22,7 +22,7 @@ $ pk config.port
 ### Set a particular config (`port` is a number in this case)
 
 ```shell
-$ pk --set-number config.port 5000
+$ pk --set --number config.port 5000
 ```
 
 ### Get the package name
@@ -108,7 +108,7 @@ $ pk scripts --delete
 ### Set a package to private
 
 ```shell
-$ pk --set-boolean private true
+$ pk --set --boolean private true
 ```
 
 ### Change package name
@@ -157,6 +157,10 @@ $ pk repository.url --set https://github.com/npm/npm.git
 
 ### Check if we have optional dependencies
 
+```shell
+$ pk --has optionalDependencies
+```
+
 ### Count the number of dev dependencies
 
 ```shell
@@ -200,11 +204,11 @@ You can use any path as a key.
 * `--set` for objects. Create the key if it doesn't exist and update its value.
 * `--append` for arrays. (alias: `--add`)
 * `--get` Reads the value of a key. (You don't have to specify it as it's the default operation).
-* `--rename` updates a key and copies its values over (only if it exists)
-* `--delete` (`--del`) for objects and arrays
-* `--count` count the number of items in an array field or keys in an object field
-* `--has` checks if an array has an element (or an object has a key)
-* `--is`  checks if a value for a provided key is equal to the provided value
+* `--rename` updates a key while keeping its value (only if it exists)
+* `--delete` (`--del`, `--remove`) remove a key from objects or element from arrays
+* `--count` count the number of items in an array field or keys in an object field. Defaults to root.
+* `--has` checks if an array has an element or an object has a key (defaults to root)
+* `--is`  checks if a value for a provided key is equal to the provided value (don't forget to mention the type if it is not string)
 * `--type` returns the type of the value of a provided key ('undefined' if the key doesn't exist or the value is undefined)
 * `--keys` lists only the keys of an object (defaults to root)
 * `--values` lists only the values of an object (defaults to root)
