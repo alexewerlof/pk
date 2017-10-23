@@ -19,10 +19,10 @@ $ pk config.port
 8080
 ```
 
-### Get a particular config (`port` is a number in this case)
+### Set a particular config (`port` is a number in this case)
 
 ```shell
-$ pk --set --number config.port 5000
+$ pk --set-number config.port 5000
 ```
 
 ### Get the package name
@@ -40,6 +40,23 @@ start   node server.js
 build   webpack .
 ```
 
+### Get list of scripts along with their commands in JSON format
+
+```shell
+$ pk scripts --json
+{
+    "start": "node server.js",
+    "build": "webpack ."
+}
+```
+
+### Get list of scripts along with their commands in minified JSON format
+
+```shell
+$ pk scripts --json-min
+{"start":"node server.js","build":"webpack ."}
+```
+
 ### Get list of script names
 
 ```shell
@@ -50,11 +67,15 @@ build
 
 ### Add a script
 
+It'll fail if the script already exists.
+
 ```shell
 $ pk scripts --add lint "eslint ."
 ```
 
 ### Update a script
+
+Creates the script if it doesn't exist.
 
 ```shell
 $ pk scripts --update lint "eslint src/"
@@ -78,10 +99,16 @@ $ pk directories
 $ pk scripts --delete lint
 ```
 
+### Delete all dependencies
+
+```shell
+$ pk scripts --delete
+```
+
 ### Set a package to private
 
 ```shell
-$ pk --set --boolean private true
+$ pk --set-boolean private true
 ```
 
 ### Change package name
@@ -122,9 +149,17 @@ $ pk repository.url --set https://github.com/npm/npm.git
 
 ### Check if we have optional dependencies
 
-### Get the number of dev dependencies
+### Count the number of dev dependencies
+
+```shell
+$ pk devDependencies --count
+```
 
 ### Remove all peer dependencies
+
+```shell
+$ pk --delete peerDependencies
+```
 
 ### Compute the next major version of the package
 
@@ -154,7 +189,8 @@ You can use any path as a key.
 * `--values` lists only the values of an object (defaults to root)
 * `--file` an alternative input file. Default is (PWD)`/package.json`
 * `--json` output the results as valid JSONs
-* `--tabs` use tabs to separate fields in an output table
+* `--json-min` like `--json` but minified
+* `--tabs` use tabs to separate fields in an output table (by default spaces are used)
 * `--pretty` make the table formatted data easier to read
 * `--version` version operations
     * `--major` get/set major version
@@ -164,7 +200,7 @@ You can use any path as a key.
     * `--increment` add the version by a specified amount (defaults to 1)
     * `--decrement` reduces the version by a specified amount (defaults to 1)
 
-## Types:
+## Types
 
 This utility knows the types for the standard `package.json` keys.
 It supports all the types that are supported in json.
@@ -183,6 +219,8 @@ In case of `--object` or `--array` the value is parsed by json so you might want
 0. All required fields are present and have the right type
 1. The name is valid
 2. The version is valid
+
+`--lint`
 
 # License
 
