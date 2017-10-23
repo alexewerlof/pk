@@ -43,7 +43,7 @@ build   webpack .
 ### Get list of scripts along with their commands in JSON format
 
 ```shell
-$ pk scripts --json
+$ pk scripts --object
 {
     "start": "node server.js",
     "build": "webpack ."
@@ -53,7 +53,7 @@ $ pk scripts --json
 ### Get list of scripts along with their commands in minified JSON format
 
 ```shell
-$ pk scripts --json-min
+$ pk scripts --object --minify
 {"start":"node server.js","build":"webpack ."}
 ```
 
@@ -119,6 +119,8 @@ $ pk --set name "my-new-package-name"
 
 ### Add an author
 
+TODO - similar to repo or keyword example depending on the format
+
 ### Add a keyword
 
 ```shell
@@ -135,6 +137,12 @@ $ pk --delete keywords "tools"
 
 ```shell
 $ pk repository --set --object '{"type" : "git", "url" : "https://github.com/npm/npm.git"}'
+```
+
+or
+
+```shell
+$ pk repository --set type=git --set url=https://github.com/npm/npm.git
 ```
 
 ### Change repo url
@@ -168,6 +176,18 @@ $ pk --version --increment --major
 $ pk --version --increment --major --preid canary
 ```
 
+# Diffing
+
+```shell
+$ pk --diff package.json.old
+```
+
+or if you want to be explicit about both file names:
+
+```shell
+$ pk --file package.json --diff package.json.old
+```
+
 # Reference
 
 You can use any path as a key.
@@ -181,24 +201,26 @@ You can use any path as a key.
 * `--append` for arrays. (alias: `--add`)
 * `--get` Reads the value of a key. (You don't have to specify it as it's the default operation).
 * `--rename` updates a key and copies its values over (only if it exists)
-* `--delete` for objects and arrays
+* `--delete` (`--del`) for objects and arrays
 * `--count` count the number of items in an array field or keys in an object field
 * `--has` checks if an array has an element (or an object has a key)
 * `--is`  checks if a value for a provided key is equal to the provided value
+* `--type` returns the type of the value of a provided key ('undefined' if the key doesn't exist or the value is undefined)
 * `--keys` lists only the keys of an object (defaults to root)
 * `--values` lists only the values of an object (defaults to root)
 * `--file` an alternative input file. Default is (PWD)`/package.json`
-* `--json` output the results as valid JSONs
-* `--json-min` like `--json` but minified
+* `--object` output the results as valid JSONs
+* `--minify` can be used with `--object` to minify the result
 * `--tabs` use tabs to separate fields in an output table (by default spaces are used)
 * `--pretty` make the table formatted data easier to read
-* `--version` version operations
+* `--diff` finds the differences between two JSON files
+* `--version` (`--ver`) version operations
     * `--major` get/set major version
     * `--minor` get/set minor version
     * `--patch` get/set patch version
     * `--preid` get/set the optional prerelease id in the version
-    * `--increment` add the version by a specified amount (defaults to 1)
-    * `--decrement` reduces the version by a specified amount (defaults to 1)
+    * `--increment` (`--inc`) add the version by a specified amount (defaults to 1)
+    * `--decrement` (`--dec`) reduces the version by a specified amount (defaults to 1)
 
 ## Types
 
@@ -208,7 +230,7 @@ It supports all the types that are supported in json.
 * `--string` (default)
 * `--boolean`
 * `--number`
-* `--object`
+* `--object` a JSON string
 * `--array`
 * `--null`
 
