@@ -1,0 +1,43 @@
+{
+  "name": "pk",
+  "version": "0.0.1",
+  "description": "A tiny utility to extract info from package.json",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "mocha -r ./**/*.test.js"
+  },
+  "bin": {
+    "pk": "bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/userpixel/pk.git"
+  },
+  "keywords": [
+    "package.json",
+    "shell",
+    "npm",
+    "script"
+  ],
+  "author": "userpixel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/userpixel/pk/issues"
+  },
+  "homepage": "https://github.com/userpixel/pk#readme",
+  "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.get": "^4.4.2",
+    "lodash.has": "^4.5.2",
+    "lodash.set": "^4.3.2",
+    "micromustache": "^5.2.0",
+    "semver": "^5.4.1"
+  },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "eslint": "^4.1.1",
+    "mocha": "^3.4.2"
+  }
+}
