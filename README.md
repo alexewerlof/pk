@@ -1,7 +1,6 @@
 # Introduction
 
-`pk` is a simple but powerful command line utility for dealing with NPM's `package.json` files.
-It comes with a powerful API as well. Everything that can be done by the CLI can also be done using the API.
+`pk` is a simple but powerful CLI and API for dealing with json files (like `package.json` or `manifest.json` etc.).
 
 # Examples
 
@@ -32,7 +31,7 @@ $ pk name
 my-package-name
 ```
 
-### Get list of scripts along with their commands
+### Get the list of scripts along with their commands
 
 ```shell
 $ pk scripts
@@ -40,7 +39,7 @@ start   node server.js
 build   webpack .
 ```
 
-### Get list of scripts along with their commands in JSON format
+### Get the list of scripts along with their commands in JSON format
 
 ```shell
 $ pk scripts --object
@@ -161,10 +160,24 @@ $ pk repository.url --set https://github.com/npm/npm.git
 $ pk --has optionalDependencies
 ```
 
+### check the type of the author field
+
+```shell
+$ pk type author
+object  #may also be string or undefined
+```
+
+### check if a particular field exists
+
+```shell
+$ pk type optDependencies
+undefined
+```
+
 ### Count the number of dev dependencies
 
 ```shell
-$ pk devDependencies --count
+$ pk devDependencies | wc -l
 ```
 
 ### Remove all peer dependencies
@@ -178,6 +191,18 @@ $ pk --delete peerDependencies
 ```shell
 $ pk --version --increment --major
 $ pk --version --increment --major --preid canary
+```
+
+### Get major version of a package
+
+```shell
+$ pk get version --major
+```
+
+### Get the keywords in a sorted order
+
+```shell
+$ pk get keywords | sort
 ```
 
 # Diffing
@@ -196,28 +221,25 @@ $ pk --file package.json --diff package.json.old
 
 You can use any path as a key.
 
-## CRUD Operations
+## General options
 
 * `--help` show help and version number
 * `--lint` checks the `package.json` to make sure it complies to the spec (skip it with `--skip-lint`)
 * `--silent` don't show any error message (the exit code will still be non-zero)
-* `--set` for objects. Create the key if it doesn't exist and update its value.
-* `--append` for arrays. (alias: `--add`)
+* `--file` an alternative input file. Default is (PWD)`/package.json`
+* `--overwrite`, `--update` overwrite the input file with the output if the command is successful (essentually update the file)
+
+## Commands
+
+* `--set` (alias `-s`) for objects. Create the key if it doesn't exist and update its value.
 * `--get` Reads the value of a key. (You don't have to specify it as it's the default operation).
 * `--rename` updates a key while keeping its value (only if it exists)
 * `--delete` (`--del`, `--remove`) remove a key from objects or element from arrays
+* `--append` (alias `-a`, `--add`) for arrays.
 * `--count` count the number of items in an array field or keys in an object field. Defaults to root.
 * `--has` checks if an array has an element or an object has a key (defaults to root)
-* `--is`  checks if a value for a provided key is equal to the provided value (don't forget to mention the type if it is not string)
-* `--type` returns the type of the value of a provided key ('undefined' if the key doesn't exist or the value is undefined)
-* `--keys` lists only the keys of an object (defaults to root)
 * `--values` lists only the values of an object (defaults to root)
-* `--file` an alternative input file. Default is (PWD)`/package.json`
-* `--object` output the results as valid JSONs
-* `--minify` can be used with `--object` to minify the result
-* `--tabs` use tabs to separate fields in an output table (by default spaces are used)
-* `--pretty` make the table formatted data easier to read
-* `--diff` finds the differences between two JSON files
+* `--diff` finds the differences between two JSON files or paths.
 * `--version` (`--ver`) version operations
     * `--major` get/set major version
     * `--minor` get/set minor version
@@ -225,6 +247,13 @@ You can use any path as a key.
     * `--preid` get/set the optional prerelease id in the version
     * `--increment` (`--inc`) add the version by a specified amount (defaults to 1)
     * `--decrement` (`--dec`) reduces the version by a specified amount (defaults to 1)
+
+## Formatting
+* `--keys` lists only the keys of an object (defaults to root)
+* `--obj-out` output the results as valid JSONs
+* `--pretty` make the table formatted data easier to read
+* `--tabs` use tabs to separate fields in an output table (by default spaces are used)
+* `--minify` can be used with `--object` to minify the result
 
 ## Types
 
@@ -234,11 +263,15 @@ It supports all the types that are supported in json.
 * `--string` (default)
 * `--boolean`
 * `--number`
-* `--object` a JSON string
+* `--object` (alias `--json`) a JSON string
 * `--array`
 * `--null`
 
-In case of `--object` or `--array` the value is parsed by json so you might want to quote it on the CLI
+In case of `--object` or `--array` the value is parsed by json so you might want to quote it on the CLI.
+
+* `--is`  checks if a value for a provided key is equal to the provided value (don't forget to mention the type if it is not string)
+* `--type` (alias `-t`) returns the type of the value of a provided key ('undefined' if the key doesn't exist or the value is undefined)
+
 
 # Linting rules
 
@@ -246,7 +279,9 @@ In case of `--object` or `--array` the value is parsed by json so you might want
 1. The name is valid
 2. The version is valid
 
-`--lint`
+`--lint <RULENAME=package.json>`
+
+Lint a particular type of JSON (other options: manifest.json)
 
 # License
 

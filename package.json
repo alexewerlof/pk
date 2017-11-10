@@ -1,6 +1,6 @@
 {
   "name": "pk",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A tiny utility to extract info from package.json",
   "main": "index.js",
   "scripts": {
@@ -28,12 +28,13 @@
   },
   "homepage": "https://github.com/userpixel/pk#readme",
   "dependencies": {
+    "detect-indent": "^5.0.0",
+    "js-yaml": "^3.10.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.has": "^4.5.2",
     "lodash.set": "^4.3.2",
-    "micromustache": "^5.2.0",
-    "semver": "^5.4.1"
+    "yargs": "^10.0.3"
   },
   "devDependencies": {
     "chai": "^4.0.2",
