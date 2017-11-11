@@ -11,7 +11,7 @@
             "program": "${workspaceFolder}/bin/cli.js",
             "args": [
                 "get",
-                "--count"
+                "name"
             ]
         }
     ]
