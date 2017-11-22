@@ -1,3 +1,5 @@
+'use strict';
+
 const filters = require('../../lib/filters');
 const crud = require('../../lib/crud');
 const format = require('../../lib/format');
@@ -44,23 +46,23 @@ function builder(yargs) {
     });
 }
 
-async function handler (argv) {
-    const raw = crud.getValue(await argv.file.json(), argv.key);
-    let result;
-    
-    if (argv.count) {
-        // TODO add an option to just get the count for objects and arrays. It returns nothing (and an error code) otherwise
-        result = filters.count(raw);
-    } else if (argv.type) {
-        result = filters.type(raw);
-    } else if (argv.keys) {
-        result = filters.keys(raw);
-    } else if (argv.values) {
-        result = filters.values(raw);
-    } else {
-        result = raw;
-    }
-    return format.output(argv, result);
+function handler (argv) {
+    format.asyncHandler(argv, pkgJson => {
+        const raw = crud.getValue(pkgJson, argv.key);
+        
+        if (argv.count) {
+            // TODO add an option to just get the count for objects and arrays. It returns nothing (and an error code) otherwise
+            return filters.count(raw);
+        } else if (argv.type) {
+            return filters.type(raw);
+        } else if (argv.keys) {
+            return filters.keys(raw);
+        } else if (argv.values) {
+            return filters.values(raw);
+        } else {
+            return raw;
+        }
+    });
 }
 
 module.exports = { command, alias, description, builder, handler };

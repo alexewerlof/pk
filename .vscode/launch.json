@@ -10,8 +10,8 @@
             "name": "Launch Program",
             "program": "${workspaceFolder}/bin/cli.js",
             "args": [
-                "get",
-                "name"
+                "delete",
+                "keywords"
             ]
         }
     ]

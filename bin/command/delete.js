@@ -1,20 +1,26 @@
+'use strict';
+
+const assert = require('assert');
 const crud = require('../../lib/crud');
 const format = require('../../lib/format');
 
 // TODO allow everything BUT
 // TODO allow removing a list of keys at once
-const command = 'delete <key>';
+const command = 'delete <keys..>';
 const alias = ['del', 'rm'];
-const description = 'Delete the specified key along with its value from the json file';
+const description = 'Delete one or more keys along with their values from the json file';
 
+// TODO add an option to reverse the detele and essentially "pick" elements...
+// TODO or maybe it makes sense to add this functionality to the "get" command maybe?
 function builder(yargs) {
-    yargs.positional('key', {
-        describe: 'The path to a particular property in the json file',
+    yargs.positional('keys', {
+        describe: 'The paths to properties in the json file that are going to be removed.',
     });
 }
 
-async function handler({ file, key }) {
-    format.output(crud.deleteKey(file, key));
+function handler(argv) {
+    assert.ok(Array.isArray(argv.keys), 'keys must be an array');
+    format.asyncHandler(argv, pkgJson =>  crud.deleteKey(pkgJson, ...argv.keys));
 }
 
 module.exports = { command, alias, description, builder, handler };

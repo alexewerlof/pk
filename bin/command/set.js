@@ -1,3 +1,6 @@
+'use strict';
+
+const assert = require('assert');
 const crud = require('../../lib/crud');
 const format = require('../../lib/format');
 
@@ -21,7 +24,6 @@ function builder(yargs) {
             requiresArg: true,
             alias: 'json',
             desc: 'indicates an object value',
-            global: true,
             type: 'string',
             coerce: JSON.parse,
             conflicts: ['array', 'string', 'number', 'boolean', 'null'],
@@ -30,7 +32,6 @@ function builder(yargs) {
             nargs: 1,
             requiresArg: true,
             desc: 'indicates an array value',
-            global: true,
             type: 'string',
             coerce: JSON.parse,
             conflicts: ['object', 'string', 'number', 'boolean', 'null'],
@@ -39,7 +40,6 @@ function builder(yargs) {
             nargs: 1,
             requiresArg: true,
             desc: 'indicates a string value',
-            global: true,
             type: 'string',
             conflicts: ['object', 'array', 'number', 'boolean', 'null'],
         },
@@ -47,7 +47,6 @@ function builder(yargs) {
             nargs: 1,
             requiresArg: true,
             desc: 'indicates a numerical value',
-            global: true,
             type: 'number',
             conflicts: ['object', 'array', 'string', 'boolean', 'null'],
         },
@@ -55,14 +54,15 @@ function builder(yargs) {
             nargs: 0,
             requiresArg: false,
             desc: 'indicates a boolean value',
-            global: true,
             conflicts: ['object', 'array', 'string', 'number', 'boolean'],
         }
     });
 }
 
-async function handler({ file, key, value }) {
-    format.output(crud.setValue(file, key, value));
+async function handler(argv) {
+    const { key, value } = argv;
+    assert.equal(typeof key, 'string');
+    format.asyncHandler(argv, pkgJson =>  crud.setValue(pkgJson, key, value));
 }
 
 module.exports = { command, alias, description, builder, handler };

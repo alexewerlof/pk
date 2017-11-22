@@ -1,3 +1,6 @@
+'use strict';
+
+const assert = require('assert');
 const crud = require('../../lib/crud');
 const format = require('../../lib/format');
 
@@ -15,8 +18,10 @@ function builder(yargs) {
     });
 }
 
-async function handler({ file, key, newname }) {
-    format.output(crud.renameKey(file, key, newname));
+function handler(argv) {
+    assert.equal(typeof argv.key, 'string');
+    assert.equal(typeof argv.newname, 'string');
+    format.asyncHandler(argv, pkgJson =>  crud.renameKey(pkgJson, argv.key, argv.newname));
 }
 
 module.exports = { command, alias, description, builder, handler };
