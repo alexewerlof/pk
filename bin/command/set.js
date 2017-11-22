@@ -7,7 +7,7 @@ const format = require('../../lib/format');
 // TODO add type options
 // TODO support setting array values JSON.stringify([undefined,null,3]) = "[null,null,3]"
 const command = 'set <key> <value>';
-const alias = [ 'write', 'update' ];
+const aliases = [ 'write', 'update' ];
 const description = 'Create the key if it doesn\'t exist and update its value.';
 
 function builder(yargs) {
@@ -65,4 +65,4 @@ async function handler(argv) {
     format.asyncHandler(argv, pkgJson =>  crud.setValue(pkgJson, key, value));
 }
 
-module.exports = { command, alias, description, builder, handler };
+module.exports = { command, aliases, description, builder, handler };

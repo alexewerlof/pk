@@ -6,7 +6,7 @@ const format = require('../../lib/format');
 
 // TODO error if newname still exists
 const command = 'rename <key> <newname>';
-const alias = ['ren', 'mv' ];
+const aliases = ['ren', 'mv' ];
 const description = 'Rename a key keeping its value';
 
 function builder(yargs) {
@@ -24,4 +24,4 @@ function handler(argv) {
     format.asyncHandler(argv, pkgJson =>  crud.renameKey(pkgJson, argv.key, argv.newname));
 }
 
-module.exports = { command, alias, description, builder, handler };
+module.exports = { command, aliases, description, builder, handler };

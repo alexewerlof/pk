@@ -7,7 +7,7 @@ const format = require('../../lib/format');
 // TODO allow everything BUT
 // TODO allow removing a list of keys at once
 const command = 'delete <keys..>';
-const alias = ['del', 'rm'];
+const aliases = ['del', 'rm'];
 const description = 'Delete one or more keys along with their values from the json file';
 
 // TODO add an option to reverse the detele and essentially "pick" elements...
@@ -23,4 +23,4 @@ function handler(argv) {
     format.asyncHandler(argv, pkgJson =>  crud.deleteKey(pkgJson, ...argv.keys));
 }
 
-module.exports = { command, alias, description, builder, handler };
+module.exports = { command, aliases, description, builder, handler };

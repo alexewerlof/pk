@@ -7,7 +7,7 @@ const utils = require('../../lib/utils');
 // TODO add type options
 // TODO add an option to specify position: start, end (for explicit index use set)
 const command = 'append <key> <value..>';
-const alias = 'add';
+const aliases = [ 'add', 'push' ];
 const description = 'Append a value to a key that has an array value';
 
 function builder(yargs) {
@@ -22,4 +22,4 @@ function handler(argv) {
     format.asyncHandler(argv, pkgJson => crud.appendValue(pkgJson, key, value));
 }
 
-module.exports = { command, alias, description, builder, handler };
+module.exports = { command, aliases, description, builder, handler };
