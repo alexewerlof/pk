@@ -6,8 +6,8 @@ const format = require('../../lib/format');
 
 // TODO add an option to deal with version values to get for example their major, minor, patch, prerelease, erorr if the value isn't a valid semver
 const command = 'get [key]';
-const aliases = ['*', 'ls', 'cat'];
-const description = 'Return the value of a key in the json file';
+const aliases = ['ls', 'cat'];
+const description = 'Return the value of a key from the json file';
 
 function builder(yargs) {
     yargs.positional('key', {
