@@ -32,7 +32,7 @@ function builder(yargs) {
         keys: {
             nargs: 0,
             requiresArg: false,
-            alias: ['k'],
+            alias: ['k', 'key'],
             desc: 'just list the keys (for objects)',
             conflicts: ['count', 'type', 'values'],
         },
