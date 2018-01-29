@@ -21,6 +21,7 @@ function builder(yargs) {
             requiresArg: false,
             alias: ['c', 'l', 'length', 'size'],
             desc: 'count the number of keys or items. For other types, if the key exists, return 1 otherwise 0',
+            conflicts: ['type', 'keys', 'values'],
         },
         type: {
             nargs: 0,
