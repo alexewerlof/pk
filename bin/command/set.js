@@ -31,6 +31,7 @@ function builder(yargs) {
         array: {
             nargs: 1,
             requiresArg: true,
+            alias: 'arr',
             desc: 'indicates an array value',
             type: 'string',
             coerce: JSON.parse,
