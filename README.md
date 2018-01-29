@@ -95,13 +95,13 @@ $ pk directories
 ### Delete a script
 
 ```shell
-$ pk scripts --delete lint
+$ pk delete scripts.lint
 ```
 
 ### Delete all dependencies
 
 ```shell
-$ pk scripts --delete
+$ pk delete dependencies
 ```
 
 ### Set a package to private
