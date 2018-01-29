@@ -13,7 +13,7 @@ const argv = yargs
         file: {
             nargs: 1,
             requiresArg: true,
-            alias: 'f',
+            alias: 'i',
             desc: 'path to the json file',
             normalize: true,
             global: true,
@@ -25,7 +25,7 @@ const argv = yargs
         format: {
             nargs: 1,
             requiresArg: true,
-            alias: 'm',
+            alias: 'f',
             desc: 'speficies the output format',
             global: true,
             type: 'string',
