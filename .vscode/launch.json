@@ -8,10 +8,15 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
             "program": "${workspaceFolder}/bin/cli.js",
             "args": [
-                "delete",
-                "keywords"
+                "rm",
+                "name",
+                "-f",
+                "json"
             ]
         }
     ]
