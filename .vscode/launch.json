@@ -18,6 +18,18 @@
                 "-f",
                 "json"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch CLI test",
+            "skipFiles": [
+                "<node_internals>/**/*.js"
+            ],
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "test/cli.test.js"
+            ]
         }
     ]
 }
