@@ -3,8 +3,6 @@
 'use strict';
 
 const yargs = require('yargs');
-const crud = require('../lib/crud');
-const format = require('../lib/format');
 const File = require('../lib/File');
 
 const argv = yargs
@@ -18,7 +16,6 @@ const argv = yargs
             normalize: true,
             global: true,
             type: 'string',
-            coerce: fileName => new File(fileName),
             default: './package.json',
             defaultDescription: 'The package.json file in the current directory',
         },
