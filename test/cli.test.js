@@ -8,17 +8,12 @@ const { expect } = require('chai');
 const readFile = promisify(fs.readFile);
 
 const tests = [
-    {
-        desc: 'gets name',
-        args: ['get', 'name', '-i', './io/get1.json'],
-        i: './test/io/get1.json',
-        o: './test/io/get1.txt'
-    }
+    './test/io/get1.txt'
 ];
 
 function runCli(args) {
     return new Promise(resolve => {
-        childProcess.execFile(path.join(__dirname, '../bin/cli.js'), args, { cwd: __dirname }, (error, stdout, stderr) => {
+        childProcess.execFile(path.join(__dirname, '../bin/cli.js'), args, { cwd: path.join(__dirname, 'io') }, (error, stdout, stderr) => {
             assert.ifError(error);
             resolve(stdout);
         });
@@ -26,11 +21,15 @@ function runCli(args) {
 }
 
 describe('cli', () => {
-    tests.forEach(({ desc, args, i, o }) => {
+    tests.forEach((o) => {
         
-        it(desc, async () => {
-            const expectedOutput = (await readFile(o)).toString();
-            expect(await runCli(args)).to.equal(expectedOutput);
+        it(o, async () => {
+            const testCase = (await readFile(o)).toString();
+            const testCaseLines = testCase.split('\n');
+            assert.ok(testCaseLines.length > 3, `test case should contain description, params and expected output ${testCase}`);
+            const [ desc, args, ...expectedOutput ] = testCaseLines;
+        
+            expect(await runCli(args.split(' '))).to.equal(expectedOutput.join('\n'));
         });
 
     });
