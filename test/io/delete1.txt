@@ -1,0 +1,3 @@
+can delete a simple property
+delete name -i name.json
+
