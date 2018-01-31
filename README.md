@@ -4,6 +4,8 @@
 [![GitHub license](https://img.shields.io/github/license/userpixel/pk.svg)](https://github.com/userpixel/pk)
 [![Twitter](https://img.shields.io/twitter/url/https/github.com/userpixel/pk.svg?style=social)](https://twitter.com/intent/tweet?text=Wow:&url=https%3A%2F%2Fgithub.com%2Fuserpixel%2Fpk)
 
+![pk logo](logo.png)
+
 # Introduction
 
 `pk` is a simple but powerful CLI and API for dealing with json files (like `package.json` or `manifest.json` etc.).
