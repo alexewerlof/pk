@@ -1,3 +1,0 @@
-can read a simple property
-get name -i name.json
-some test
