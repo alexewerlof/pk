@@ -9,3 +9,7 @@ max_line_length = 100
 [*.{js,json}]
 charset = utf-8
 trim_trailing_whitespace = true
+
+[*.txt]
+indent_style = tab
+indent_size = 8
