@@ -12,6 +12,28 @@
 
 **Note: right now it is in very early stage. If you're missing a feature you're welcome to file an issue.**
 
+# Install
+
+The simplest way to run it is using `npx`.
+
+```shell
+$ npx pk
+```
+
+You can also install it globally:
+
+```shell
+$ npm i -g pk
+```
+
+Now you can run it from your sell. See the command reference for example:
+
+```shell
+$ pk
+```
+
+To update it, do `npm i -g pk@latest`
+
 # Examples
 
 ### Get the main field
