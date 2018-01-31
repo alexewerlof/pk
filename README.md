@@ -2,6 +2,8 @@
 
 `pk` is a simple but powerful CLI and API for dealing with json files (like `package.json` or `manifest.json` etc.).
 
+**Note: right now it is in very early stage. If you're missing a feature you're welcome to file an issue.**
+
 # Examples
 
 ### Get the main field
