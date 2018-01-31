@@ -1,0 +1,3 @@
+works even when counting number of keys in an empty object
+get obj -i empty-obj.json -c
+0

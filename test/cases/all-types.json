@@ -4,6 +4,7 @@
     "arr": [ 1, 2, 3],
     "bool": true,
     "obj": {
-        "a": "foo"
+        "a": "foo",
+        "b": "bar"
     }
 }

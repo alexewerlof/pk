@@ -1,0 +1,3 @@
+counts the number of elements in an array
+get arr -c -i all-types.json
+3

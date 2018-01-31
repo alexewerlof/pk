@@ -1,0 +1,4 @@
+gets an object
+get obj -i all-types.json
+a	foo
+b	bar

@@ -1,0 +1,3 @@
+works even when counting an empty array
+get arr -i empty-arr.json -c
+0
