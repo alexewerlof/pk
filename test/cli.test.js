@@ -2,7 +2,7 @@ const assert = require('assert');
 const fs = require('fs');
 const { join } = require('path');
 const { promisify } = require('util');
-const childProcess = require('child_process');
+const { exec } = require('child_process');
 const { expect } = require('chai');
 
 const readFile = promisify(fs.readFile);
@@ -13,8 +13,12 @@ function relPath(...parts) {
 
 function runCli(args) {
     return new Promise(resolve => {
-        childProcess.execFile(relPath('../bin/cli.js'), args, { cwd: relPath('cases') }, (error, stdout, stderr) => {
+        exec(`${relPath('../bin/cli.js')} ${args}`, {
+            cwd: relPath('cases'),
+            timeout: 2000, //msec
+        }, (error, stdout, stderr) => {
             assert.ifError(error);
+            assert.ifError(stderr);
             resolve(stdout);
         });
     });
@@ -27,7 +31,7 @@ async function readTestCase(fileName) {
     const [ desc, args, ...output ] = testCaseLines;
     return {
         desc,
-        args: args.split(' '), //Bogus for when we use quotations
+        args,
         output: output.join('\n')
     };
 }
