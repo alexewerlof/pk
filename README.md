@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/userpixel/pk.svg?branch=master)](https://travis-ci.org/userpixel/pk)
+
 # Introduction
 
 `pk` is a simple but powerful CLI and API for dealing with json files (like `package.json` or `manifest.json` etc.).
