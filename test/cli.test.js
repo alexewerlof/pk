@@ -7,9 +7,13 @@ const { expect } = require('chai');
 
 const readFile = promisify(fs.readFile);
 
+function relPath(...parts) {
+    return join(__dirname, ...parts);
+}
+
 function runCli(args) {
     return new Promise(resolve => {
-        childProcess.execFile(join(__dirname, '../bin/cli.js'), args, { cwd: join(__dirname, 'io') }, (error, stdout, stderr) => {
+        childProcess.execFile(relPath('../bin/cli.js'), args, { cwd: relPath('cases') }, (error, stdout, stderr) => {
             assert.ifError(error);
             resolve(stdout);
         });
@@ -17,7 +21,7 @@ function runCli(args) {
 }
 
 async function readTestCase(fileName) {
-    const testCase = (await readFile(join(__dirname, 'io', fileName))).toString();
+    const testCase = (await readFile(relPath('cases', fileName))).toString();
     const testCaseLines = testCase.split('\n');
     assert.ok(testCaseLines.length > 3, `test case should contain description, params and expected output ${testCase}`);
     const [ desc, args, ...output ] = testCaseLines;
@@ -29,7 +33,7 @@ async function readTestCase(fileName) {
 }
 
 describe('cli', () => {
-    fs.readdirSync(join(__dirname, 'io'))
+    fs.readdirSync(relPath('cases'))
         .filter(fileName => /\.txt$/i.test(fileName))
         .forEach((fileName) => {
         
