@@ -28,9 +28,9 @@ const argv = yargs
             type: 'string',
             default: 'unix',
             defaultDescription: 'unix compatible format suitable for scripting',
-            choices: ['unix', 'json', 'json-min', 'yaml'],
+            choices: ['unix', 'json', 'min', 'yaml'],
         },
-        
+
     })
     .epilogue(`wherever key is mentioned, you can pass a path like a.b.c or a['b'].c as well as array indexes like a[2].c`)
     .help('help')
