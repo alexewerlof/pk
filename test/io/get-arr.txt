@@ -1,0 +1,5 @@
+gets an array property
+get arr -i all-types.json
+1
+2
+3

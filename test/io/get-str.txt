@@ -1,0 +1,3 @@
+gets a string property
+get str -i all-types.json
+hello

@@ -1,0 +1,9 @@
+{
+    "str": "hello",
+    "num": 2,
+    "arr": [ 1, 2, 3],
+    "bool": true,
+    "obj": {
+        "a": "foo"
+    }
+}
