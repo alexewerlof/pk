@@ -1,4 +1,5 @@
 [![npm](https://img.shields.io/npm/dt/pk.svg)](https://www.npmjs.com/package/pk)
+[![npm](https://img.shields.io/npm/v/pk.svg)](https://www.npmjs.com/package/pk)
 [![Build Status](https://travis-ci.org/userpixel/pk.svg?branch=master)](https://travis-ci.org/userpixel/pk)
 [![GitHub issues](https://img.shields.io/github/issues/userpixel/pk.svg)](https://github.com/userpixel/pk/issues)
 [![GitHub stars](https://img.shields.io/github/stars/userpixel/pk.svg)](https://github.com/userpixel/pk/stargazers)
