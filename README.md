@@ -111,9 +111,7 @@ $ pk keywords | sort
 
 # Reference
 
-You can use any path as a key.
-
-Type `pk --help` for a general reference and `pk COMMAND --help` for help on a specific command like: `pk --help`.
+See the [command reference](./COMMANDS.md) or use `pk --help`.
 
 # License
 
