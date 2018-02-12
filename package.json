@@ -1,6 +1,6 @@
 {
   "name": "pk",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "private": false,
   "description": "A tiny utility to extract info from package.json",
   "main": "index.js",
