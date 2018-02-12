@@ -3,6 +3,7 @@
 'use strict';
 
 const fs = require('fs');
+const { resolve } = require('path');
 const minimist = require('minimist');
 const _get = require('lodash.get')
 const filter = require('../lib/filter');
@@ -10,19 +11,29 @@ const format = require('../lib/format');
 
 const argv = minimist(process.argv.slice(2), {
     string: [ 'file' ],
-    boolean: [ 'json', 'unix', 'min', 'keys', 'values', 'count', 'type' ],
+    boolean: [
+        'help',
+        'json', 'unix', 'min',
+        'keys', 'values', 'count', 'type'
+    ],
     alias: {
+        h: 'help',
         f: ['file', 'input', 'in', 'i'],
         k: ['keys', 'key'],
         v: ['values', 'value', 'val', 'vals'],
         c: ['count', 'length', 'size'],
-        t: ['type']
+        t: ['type', 'types'],
     },
     default: {
         file: './package.json',
         format: 'unix'
     }
 });
+
+if (argv.help) {
+    console.log(fs.readFileSync(resolve(__dirname, '../COMMANDS.md')).toString());
+    process.exit(0);
+}
 
 function checkConflics(incompatibleOptions, argv) {
     const allOptions = Object.keys(argv);
