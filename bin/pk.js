@@ -64,7 +64,7 @@ let content;
 try {
     content = fs.readFileSync(argv.file);
 } catch (err) {
-    throw `Could not read ${fileName}: ${err}`;
+    throw `Could not read ${argv.file}: ${err}`;
 }
 
 let contentJson;
