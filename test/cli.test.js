@@ -13,7 +13,7 @@ function relPath(...parts) {
 
 function runCli(args) {
     return new Promise(resolve => {
-        exec(`${relPath('../bin/cli.js')} ${args}`, {
+        exec(`${relPath('../bin/pk.js')} ${args}`, {
             cwd: relPath('cases'),
             timeout: 2000, //msec
         }, (error, stdout, stderr) => {
@@ -40,10 +40,10 @@ describe('cli', () => {
     fs.readdirSync(relPath('cases'))
         .filter(fileName => /\.txt$/i.test(fileName))
         .forEach((fileName) => {
-        
+
             it(fileName, async () => {
                 const { args, output } = await readTestCase(fileName);
-            
+
                 expect(await runCli(args)).to.equal(output);
             });
 

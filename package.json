@@ -11,7 +11,7 @@
     "preversion": "npm t"
   },
   "bin": {
-    "pk": "bin/cli.js"
+    "pk": "bin/pk.js"
   },
   "repository": {
     "type": "git",
@@ -30,13 +30,8 @@
   },
   "homepage": "https://github.com/userpixel/pk#readme",
   "dependencies": {
-    "detect-indent": "^5.0.0",
-    "js-yaml": "^3.10.0",
-    "lodash.clonedeep": "^4.5.0",
     "lodash.get": "^4.4.2",
-    "lodash.has": "^4.5.2",
-    "lodash.set": "^4.3.2",
-    "yargs": "^11.0.0"
+    "minimist": "^1.2.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",

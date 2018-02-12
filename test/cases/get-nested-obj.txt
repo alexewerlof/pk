@@ -1,3 +1,3 @@
 get a nested object
-get a.b.c -i nested-obj.json
+a.b.c -i nested-obj.json
 value
