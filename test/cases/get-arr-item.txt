@@ -1,0 +1,3 @@
+gets a specific item from an array
+arr[2] -i all-types.json
+two

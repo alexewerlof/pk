@@ -56,8 +56,28 @@ $ pk main
 ### Get a particular config (`port` in this case)
 
 ```shell
+# package.json:
+# {
+#   ...
+#   config: {
+#     port: 8080
+#   }
+# }
 $ pk config.port
 8080
+```
+
+### Get an array element
+
+Get the second keyword:
+
+```shell
+# package.json
+# {
+#   keywords: [ "node", "cli", "config", "CI" ]
+# }
+$ pk keywords[2]
+config
 ```
 
 ### Get the list of scripts along with their commands
@@ -103,7 +123,8 @@ array
 If `keywords` doesn't exist, `undefined` will be printed:
 
 ```shell
-$ pk --type keywords
+# many switches have a short hand: -t is the same as --type
+$ pk -t keywords
 undefined
 ```
 

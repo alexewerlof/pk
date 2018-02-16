@@ -1,7 +1,7 @@
 {
     "str": "hello",
     "num": 2,
-    "arr": [ 1, 2, 3],
+    "arr": [ "zero", "one", "two"],
     "bool": true,
     "obj": {
         "a": "foo",
