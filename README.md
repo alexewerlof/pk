@@ -113,7 +113,7 @@ $ pk keywords | sort
 
 # Reference
 
-See the [command reference](./COMMANDS.md) or use `pk --help`.
+See the [command reference](./COMMANDS.txt) or use `pk --help`.
 
 # License
 
