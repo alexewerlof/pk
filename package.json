@@ -9,7 +9,8 @@
     "#pretest": "npm run lint",
     "test": "mocha",
     "preversion": "npm t",
-    "postpublish": "git push && git push --tags"
+    "postversion": "git push --tags",
+    "postpublish": "git push"
   },
   "bin": {
     "pk": "bin/pk.js"
