@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "#pretest": "npm run lint",
     "test": "mocha",
-    "preversion": "npm t"
+    "preversion": "npm t",
+    "postpublish": "git push && git push --tags"
   },
   "bin": {
     "pk": "bin/pk.js"
