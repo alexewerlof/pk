@@ -10,9 +10,8 @@
 
 # Introduction
 
-`pk` is a simple CLI for querying JSON files like `package.json` or `manifest.json` etc.
-
-**Note: right now it is in very early stage. If you're missing a feature you're welcome to file an issue.**
+`pk` is a small utility CLI for querying JSON files like `package.json` or `manifest.json` etc.
+It has just 2 dependencies that are extremely popular and have no other dependencies. 
 
 # Install
 
@@ -28,10 +27,10 @@ You can also install it globally:
 $ npm i -g pk
 ```
 
-Now you can run it from your sell. See the command reference for example:
+Now you can run it from the terminal. See the command reference for example:
 
 ```shell
-$ pk
+$ pk --help
 ```
 
 To update it, do `npm i -g pk@latest`
@@ -40,7 +39,9 @@ To update it, do `npm i -g pk@latest`
 
 ### Get the main field
 
+
 ```shell
+# By default it operates on the `./package.json`.
 $ pk main
 index.js
 ```
@@ -75,7 +76,7 @@ start
 build
 ```
 
-### Get the list of scripts along with their commands in JSON format
+In JSON format:
 
 ```shell
 $ pk scripts --json
@@ -85,7 +86,7 @@ $ pk scripts --json
 }
 ```
 
-### Get list of scripts along with their commands in minified JSON format
+And minified JSON:
 
 ```shell
 $ pk scripts --min
@@ -93,6 +94,13 @@ $ pk scripts --min
 ```
 
 ### check the type of the keywords field
+
+```shell
+$ pk --type keywords
+array
+```
+
+If `keywords` doesn't exist, `undefined` will be printed:
 
 ```shell
 $ pk --type keywords
