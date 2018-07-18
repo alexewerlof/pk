@@ -1,4 +1,4 @@
 gets an object
-obj -i all-types.json
+obj -i all-types.json -kv
 a	foo
 b	bar

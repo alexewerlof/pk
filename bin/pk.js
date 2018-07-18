@@ -3,93 +3,91 @@
 'use strict';
 
 const fs = require('fs');
-const { resolve } = require('path');
-const minimist = require('minimist');
+const yargs = require('yargs');
 const _get = require('lodash.get')
+const debug = require('debug');
 const filter = require('../lib/filter');
 const format = require('../lib/format');
 
-const argv = minimist(process.argv.slice(2), {
-    string: [ 'file' ],
-    boolean: [
-        'help',
-        'json', 'unix', 'min',
-        'keys', 'values', 'count', 'type'
-    ],
-    alias: {
-        h: 'help',
-        f: ['file', 'input', 'in', 'i'],
-        k: ['keys', 'key'],
-        v: ['values', 'value', 'val', 'vals'],
-        c: ['count', 'length', 'size'],
-        t: ['type', 'types'],
-    },
-    default: {
-        file: './package.json',
-        format: 'unix'
-    }
-});
+const log = debug('pk');
 
-if (argv.help) {
-    console.log(fs.readFileSync(resolve(__dirname, '../COMMANDS.md')).toString());
-    process.exit(0);
-}
-
-function checkConflics(incompatibleOptions, argv) {
-    const allOptions = Object.keys(argv);
-    for (let i = 0; i < incompatibleOptions.length; i++) {
-        const opt = incompatibleOptions[i];
-        if (argv[opt]) {
-            for (let j = 0; j < incompatibleOptions.length; j++) {
-                if ( i == j ) {
-                    continue;
-                }
-                const otherOpt = incompatibleOptions[j];
-                if (argv[otherOpt]) {
-                    throw `Cannot use ${opt} with ${otherOpt}`;
-                }
-            }
+const argv = yargs
+    .usage('Usage: pk [options] [path]\n' +
+        'The path can be the name of a key like "name" or "keywords[3]" or "bugs.url".')
+    .options({
+        v: {
+            describe: 'Get values',
+            alias: 'val',
+            type: 'boolean',
+            conflicts: ['t', 'c'],
+        },
+        k: {
+            describe: 'Get keys (default)',
+            alias: 'key',
+            type: 'boolean',
+        },
+        c: {
+            describe: 'Count the number of values for an array or number of keys for objects',
+            alias: 'count',
+            type: 'boolean',
+        },
+        t: {
+            describe: 'Show types instead of values',
+            alias: 'type',
+            type: 'boolean',
+            conflicts: ['c', 'v']
+        },
+        j: {
+            describe: 'Output JSON',
+            alias: 'json',
+            type: 'boolean',
+        },
+        m: {
+            describe: 'Output minified JSON',
+            alias: 'min',
+            type: 'boolean',
+        },
+        i: {
+            describe: 'The input JSON file',
+            alias: 'in',
+            type: 'string',
+            default: './package.json',
+            normalize: true,
         }
-    }
-}
+    })
+    .alias('h', 'help')
+    .example('pk name', 'prints the value of "name" key from the current "package.json" file')
+    .version()
+    .epilog('Made in Sweden')
+    .help()
+    .wrap(null)
+    .argv
 
-if (argv._.length > 1) {
-    throw `Only one key is expected but got ${argv._.length}: ${argv._.join(', ')}`;
-}
+log(argv)
 
-checkConflics(['json', 'unix', 'min'], argv);
-checkConflics(['keys', 'values', 'count', 'type'], argv);
-
-let content;
-try {
-    content = fs.readFileSync(argv.file);
-} catch (err) {
-    throw `Could not read ${argv.file}: ${err}`;
-}
-
-let contentJson;
-try {
-    contentJson = JSON.parse(content.toString());
-} catch (err) {
-    throw `Could not parse the contents as JSON: ${err}`;
-}
-
-const obj = argv._[0] ? _get(contentJson, argv._[0]) : contentJson;
-if (obj === undefined) {
-    throw `No data`;
+function readJSON(fileName) {
+    log('Reading file from path', fileName)
+    return JSON.parse(fs.readFileSync(fileName, 'utf8'))
 }
 
 let what;
-if (argv.keys) {
-    what = filter.keys(obj);
-} else if (argv.values) {
-    what = filter.values(obj);
-} else if (argv.count) {
-    what = filter.count(obj);
-} else if (argv.type) {
-    what = filter.type(obj);
-} else {
-    what = obj;
+try {
+    const path = argv._[0];
+    let result = path ? _get(readJSON(argv.in), path) : readJSON(argv.in);
+    if (argv.key && argv.val) {
+        what = result
+    } else if (argv.val) {
+        what = filter.values(result);
+    } else if (argv.count) {
+        what = filter.count(result);
+    } else if (argv.type) {
+        what = filter.type(result);
+    } else {
+        what = filter.keys(result);
+    }
+} catch (err) {
+    console.log(err);
+    process.exit(1);
 }
 
 let how;

@@ -1,6 +1,6 @@
 const assert = require('assert');
 const fs = require('fs');
-const { join } = require('path');
+const { join, extname } = require('path');
 const { promisify } = require('util');
 const { exec } = require('child_process');
 const { expect } = require('chai');
@@ -32,19 +32,19 @@ async function readTestCase(fileName) {
     return {
         desc,
         args,
-        output: output.join('\n')
+        expectedOutput: output.join('\n')
     };
 }
 
 describe('cli', () => {
     fs.readdirSync(relPath('cases'))
-        .filter(fileName => /\.txt$/i.test(fileName))
+        .filter(fileName => extname(fileName) === '.txt')
         .forEach((fileName) => {
 
             it(fileName, async () => {
-                const { args, output } = await readTestCase(fileName);
-
-                expect(await runCli(args)).to.equal(output);
+                const { args, expectedOutput } = await readTestCase(fileName);
+                const output = await runCli(args)
+                expect(output).to.equal(expectedOutput);
             });
 
         });
