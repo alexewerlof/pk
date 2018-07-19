@@ -8,6 +8,7 @@ const _get = require('lodash.get')
 const debug = require('debug');
 const filter = require('../lib/filter');
 const format = require('../lib/format');
+const completion = require('../lib/completion');
 
 const log = debug('pk');
 
@@ -58,8 +59,16 @@ const argv = yargs
     .alias('h', 'help')
     .example('pk name', 'prints the value of "name" key from the current "package.json" file')
     .version()
-    .epilog('Made in Sweden')
     .help()
+    .completion('bashcomp', function (current, argv) {
+        try {
+            log('current:', current, 'argv:', argv)
+            return completion.fromObjFiltered(readJSON(argv.i), current)
+        } catch(e) {
+            log(e)
+            return [];
+        }
+    })
     .wrap(null)
     .argv
 
@@ -73,20 +82,30 @@ function readJSON(fileName) {
 let what;
 try {
     const path = argv._[0];
+    log(path ? `Path is ${path}` : 'There is no path. Operating on the whole file.');
     let result = path ? _get(readJSON(argv.in), path) : readJSON(argv.in);
     if (argv.key && argv.val) {
+        log('Both keys are values are desired');
         what = result
+    } else if (argv.key) {
+        log('Only keys are requested');
+        what = filter.keys(result);
     } else if (argv.val) {
+        log('Only values are requested');
         what = filter.values(result);
     } else if (argv.count) {
+        log('Only count is requested');
         what = filter.count(result);
     } else if (argv.type) {
+        log('Only type is requested');
         what = filter.type(result);
     } else {
-        what = filter.keys(result);
+        log('No filters specified, operating on the whole JSON');
+        what = result;
     }
 } catch (err) {
-    console.log(err);
+    log(err)
+    console.log(err.message || err);
     process.exit(1);
 }
 
