@@ -147,3 +147,38 @@ See the [command reference](./COMMANDS.txt) or use `pk --help`.
 # License
 
 MIT
+
+
+Count the number of dependencies in package-lock
+pk -i package-lock.json dependencies -c
+
+Check the version number detail according to semver
+pk -s
+
+Autocompletion script
+Linux: pk bashcomp >> ~/.bashrc
+Mac: pk bashcomp >> ~/.bash_profile
+
+Minify the whole file
+pk -i some-file.json -m
+
+get the list of scripts
+pk scripts -k
+
+get package name
+pk name
+
+Check the type of a particular field
+pk keywords -t
+
+get the version number
+pk version
+
+get the number of devDependencies
+pk devDependencies -c
+
+format the file to human readable json
+pk -i some-file.json -j
+
+get a part of the json file
+pk repository -j
