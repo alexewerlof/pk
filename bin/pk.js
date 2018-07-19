@@ -48,6 +48,11 @@ const argv = yargs
             alias: 'min',
             type: 'boolean',
         },
+        s: {
+            describe: 'Parse the value as a semver version',
+            alias: 'semver',
+            type: 'boolean',
+        },
         i: {
             describe: 'The input JSON file',
             alias: 'in',
@@ -99,6 +104,9 @@ try {
     } else if (argv.type) {
         log('Only type is requested');
         what = filter.type(result);
+    } else if (argv.semver) {
+        log('Parsing as semver');
+        what = filter.semver(result);
     } else {
         log('No filters specified, operating on the whole JSON');
         what = result;
@@ -110,10 +118,10 @@ try {
 }
 
 let how;
-if (argv.json) {
-    how = 'json';
-} else if (argv.min) {
+if (argv.min) {
     how = 'min';
+} else if (argv.json) {
+    how = 'json';
 } else {
     how = 'unix';
 }
