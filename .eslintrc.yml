@@ -1,4 +1,6 @@
 extends: eslint:recommended
+parserOptions:
+    ecmaVersion: 2017
 env:
     node: true
     mocha: true
@@ -9,8 +11,7 @@ rules:
     no-unused-vars:
       - error
       - argsIgnorePattern: next
-    require-jsdoc:
-      - warn
+    require-jsdoc: off
     valid-jsdoc:
       - error
       - requireParamDescription: false

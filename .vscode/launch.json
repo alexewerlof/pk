@@ -11,12 +11,15 @@
             "skipFiles": [
                 "<node_internals>/**/*.js"
             ],
-            "program": "${workspaceFolder}/bin/cli.js",
+            "program": "${workspaceFolder}/bin/pk.js",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "DEBUG": "pk"
+            },
             "args": [
-                "rm",
-                "name",
-                "-f",
-                "json"
+                "-i",
+                "test/cases/all-types.json",
+                "num",
             ]
         },
         {
@@ -26,6 +29,9 @@
             "skipFiles": [
                 "<node_internals>/**/*.js"
             ],
+            "env": {
+                "DEBUG": "pk"
+            },
             "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
             "args": [
                 "test/cli.test.js"
