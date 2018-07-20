@@ -59,113 +59,9 @@ $ pk main
 index.js
 ```
 
-If there is no main field nothing will be returned:
+If there is no main field nothing will be returned.
 
-```shell
-$ pk main
-
-```
-
-### Working with nested objects
-
-`package.json`:
-
-```js
-{
-  ...
-  config: {
-    port: 8080
-  }
-}
-```
-
-Get a particular config (`port` in this case)
-
-```shell
-$ pk config.port
-8080
-```
-
-You can also use autocomplete to see what is available.
-Just press &lt;<kbd>TAB</kbd>&gt;&lt;<kbd>TAB</kbd>&gt; after istalling the command line completion script.
-
-### Working with arrays
-
-`package.json`
-
-```js
-{
-    keywords: [ "node", "cli", "config", "CI" ]
-}
-```
-
-Get a particular item
-```shell
-$ pk keywords[2]
-config
-```
-
-Get all items
-
-```shell
-$ pk keywords
-node
-cli
-config
-CI
-```
-
-You can get it in json format
-
-```shell
-$ pk keywords -j
-[
-    "node",
-    "cli",
-    "config",
-    "CI"
-]
-```
-
-Or even minified
-
-```shell
-$ pk keywords -j
-["node","cli","config","CI"]
-```
-
-By default the output is unix compatible so you can pipe it
-
-```shell
-$ pk keywords | sort
-CI
-cli
-config
-node
-```
-
-Get the type of something
-
-```shell
-$ pk -t keywords
-array
-```
-
-Or the type of an element
-
-```shell
-$ pk -t keywords[0]
-string
-```
-
-If a field doesn't exist, `undefined` will be printed:
-
-```shell
-$ pk -t license
-undefined
-```
-
-### Get the list of scripts
+### Working with objects
 
 `package.json`:
 
@@ -178,8 +74,7 @@ undefined
 }
 ```
 
-
-Get the list of scripts along with their commands
+Get the list of scripts along with their commands:
 
 ```shell
 $ pk scripts
@@ -187,7 +82,7 @@ start   node server.js
 build   webpack .
 ```
 
-Just the script names (the autocomplete feature comes handy here)
+Just the script names (the autocomplete feature comes handy here):
 
 ```shell
 $ pk scripts -k
@@ -205,6 +100,106 @@ $ pk scripts -j
 }
 ```
 
+#### Nested objects
+
+`package.json`:
+
+```js
+{
+  ...
+  config: {
+    port: 8080
+  }
+}
+```
+
+Get a particular config (`port` in this case):
+
+```shell
+$ pk config.port
+8080
+```
+
+You can also use autocomplete to see what is available.
+Just press <kbd>TAB</kbd><kbd>TAB</kbd> after istalling the command line completion script.
+
+### Working with arrays
+
+`package.json`
+
+```js
+{
+    keywords: [ "node", "cli", "config", "CI" ]
+}
+```
+
+Get a particular item:
+
+```shell
+$ pk keywords[2]
+config
+```
+
+Get all items:
+
+```shell
+$ pk keywords
+node
+cli
+config
+CI
+```
+
+Get it in json format:
+
+```shell
+$ pk keywords -j
+[
+    "node",
+    "cli",
+    "config",
+    "CI"
+]
+```
+
+Or even minified:
+
+```shell
+$ pk keywords -j
+["node","cli","config","CI"]
+```
+
+By default the output is unix compatible so you can pipe it:
+
+```shell
+$ pk keywords | sort
+CI
+cli
+config
+node
+```
+
+Get the type of something:
+
+```shell
+$ pk -t keywords
+array
+```
+
+Or the type of an element:
+
+```shell
+$ pk -t keywords[0]
+string
+```
+
+If a field doesn't exist, `undefined` will be printed:
+
+```shell
+$ pk -t license
+undefined
+```
+
 ### Minify a json file
 
 There's no magic! It just uses native JSON module without padding.
@@ -218,14 +213,14 @@ There's no magic! It just uses native JSON module without padding.
 }
 ```
 
-Minify it and show the output
+Minify it and show the output:
 
 ```shell
 $ pk -i original.json -m
 {"name":"Alex","city":"Stockholm"}
 ```
 
-Write the output to a file
+Write the output to a file:
 
 ```shell
 $ pk -i original.json -m > original.min.json
@@ -242,7 +237,7 @@ $ pk -i original.json -m > original.min.json
 }
 ```
 
-Show it pretty on screen
+Show it pretty on screen:
 
 ```shell
 $ pk -i original.json -j
@@ -257,19 +252,19 @@ $ pk -i original.json -j
 }
 ```
 
-If the output is too big you may wanna browse it on the terminal
+If the output is too big you may wanna browse it on the terminal:
 
 ```shell
 $ pk -i original.json -j | less
 ```
 
-Or just write it to a file
+Or just write it to a file:
 
 ```shell
 $ pk -i original.json -j > original-prettified.json
 ```
 
-Even overwrite the original file
+Even overwrite the original file:
 
 ```shell
 $ pk -i original.json -j > original.json
@@ -295,14 +290,14 @@ $ pk devDependencies -c
 4
 ```
 
-package-lock.json is nutorious!
+`package-lock.json` is nutorious!
 
 ```shell
 $ pk -i package-lock.json dependencies -c
 2739
 ```
 
-If you're referring to an array, it'll return the size of the array
+If you're referring to an array, it'll return the size of the array:
 
 ```shell
 $ pk -c keywords
@@ -322,7 +317,7 @@ $ pk -c keywords
 }
 ```
 
-Get the value of the repository 
+Get the value of the repository:
 
 ```shell
 $ pk -j repository
@@ -342,14 +337,14 @@ $ pk -j repository
 }
 ```
 
-Just get the version string
+Just get the version string:
 
 ```shell
 $ pk version
 1.2.3
 ```
 
-Parse it as semver
+Parse it as [semver](https://semver.org/):
 
 ```shell
 $ pk -s version
@@ -358,7 +353,7 @@ minor   2
 patch   3
 ```
 
-You can actually omit "version" part if that's where it is
+You can actually omit "version" part if that's where it is:
 
 ```shell
 $ pk -s
@@ -367,7 +362,7 @@ minor   2
 patch   3
 ```
 
-Yep you can get it in JSON format if you want
+Yep you can get it in JSON format if you want:
 
 ```shell
 $ pk -s version
@@ -378,7 +373,8 @@ $ pk -s version
 }
 ```
 
-It understands watever semver can parse so if the version was "4.3.2-beta.2+build1000"
+It understands watever [semver](https://www.npmjs.com/package/semver) can parse.
+So if the version was "4.3.2-beta.2+build1000"
 
 ```shell
 $ pk -s
@@ -403,6 +399,9 @@ $ pk --help`.
 # Check the version
 $ pk --version
 
+# Check if there's a new version
+$ npm outdated -g pk
+
 # Update it if needed
 $ npm i -g pk@latest`
 ```
@@ -410,7 +409,6 @@ $ npm i -g pk@latest`
 # Uninstall
 
 ```shell
-# Uninstall it globally (you may need sudo permission on Linux)
 $ npm un -g pk
 ```
 
