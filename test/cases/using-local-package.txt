@@ -1,0 +1,3 @@
+gets the data from the local package.json
+name
+sample-package-json

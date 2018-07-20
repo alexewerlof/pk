@@ -1,0 +1,7 @@
+can parse a semver version
+-s version
+major	4
+minor	3
+patch	2
+build	["build1000"]
+prerelease	["beta",2]

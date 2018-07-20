@@ -174,6 +174,9 @@ pk keywords -t
 get the version number
 pk version
 
+parse version according to semver spec
+pk -s
+
 get the number of devDependencies
 pk devDependencies -c
 
