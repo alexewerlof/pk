@@ -11,37 +11,50 @@
 # Introduction
 
 `pk` is a small utility CLI for querying JSON files like `package.json` or `manifest.json` etc.
-It has just 2 dependencies that are extremely popular and have no other dependencies. 
+
+* Get the value of a particular field 💪 `pk scripts.start`
+* Parse semver versions 🐍 `pk -s version`
+* Minify json 🐭 `pk -m`
+* Beautify json 🐘 `pk -j`
+* Get the keys in an object 🔑 `pk -k scripts`
+* Get the size of an array or number of keys in an object 🌮 `pk -c dependencies`
+* Get a part of a json file ✂ `pk -j repository`
+* Check if a path exists in the json and what type it is 🎁 `pk -t keywords`
+* The default output is compatible with Unix text processing utils 👓 (`wc`, `sort`, `grep`, `uniq`, `comm`, `shuf`, `paste`, `column`, `pr`, `fold`, `cmp`, `diff`, [etc.](https://github.com/learnbyexample/Command-line-text-processing))
+* Tiny, super quick, 100% Javascript 🦄
+* Autocomplete (see 👇)
+
+By default it operates on _**p**ac**k**age.json_ where its name comes from but you can specify
+any input file using the `-i FILE.json` option.
 
 # Install
-
-The simplest way to run it is using `npx`.
-
-```shell
-$ npx pk
-```
-
-You can also install it globally:
 
 ```shell
 $ npm i -g pk
 ```
 
-Now you can run it from the terminal. See the command reference for example:
+Now you can run it from the terminal.
+Check out the command reference to see what you can do with it:
 
 ```shell
 $ pk --help
 ```
 
-To update it, do `npm i -g pk@latest`
+# Install command line completion (optional)
+
+`pk bashcomp`generates the bash auto complete command
+You need to add this script to your bash initialization:
+
+* On Linux  `$ pk bashcomp >> ~/.bashrc`
+* On mac  `$ pk bashcomp >> ~/.bash_profile`
+
+Then you need to restart a bash session for this to take effect.
 
 # Examples
 
-### Get the main field
-
+### Get the `main` field
 
 ```shell
-# By default it operates on the `./package.json`.
 $ pk main
 index.js
 ```
@@ -53,34 +66,120 @@ $ pk main
 
 ```
 
-### Get a particular config (`port` in this case)
+### Working with nested objects
+
+`package.json`:
+
+```js
+{
+  ...
+  config: {
+    port: 8080
+  }
+}
+```
+
+Get a particular config (`port` in this case)
 
 ```shell
-# package.json:
-# {
-#   ...
-#   config: {
-#     port: 8080
-#   }
-# }
 $ pk config.port
 8080
 ```
 
-### Get an array element
+You can also use autocomplete to see what is available.
+Just press &lt;<kbd>TAB</kbd>&gt;&lt;<kbd>TAB</kbd>&gt; after istalling the command line completion script.
 
-Get the second keyword:
+### Working with arrays
 
+`package.json`
+
+```js
+{
+    keywords: [ "node", "cli", "config", "CI" ]
+}
+```
+
+Get a particular item
 ```shell
-# package.json
-# {
-#   keywords: [ "node", "cli", "config", "CI" ]
-# }
 $ pk keywords[2]
 config
 ```
 
-### Get the list of scripts along with their commands
+Get all items
+
+```shell
+$ pk keywords
+node
+cli
+config
+CI
+```
+
+You can get it in json format
+
+```shell
+$ pk keywords -j
+[
+    "node",
+    "cli",
+    "config",
+    "CI"
+]
+```
+
+Or even minified
+
+```shell
+$ pk keywords -j
+["node","cli","config","CI"]
+```
+
+By default the output is unix compatible so you can pipe it
+
+```shell
+$ pk keywords | sort
+CI
+cli
+config
+node
+```
+
+Get the type of something
+
+```shell
+$ pk -t keywords
+array
+```
+
+Or the type of an element
+
+```shell
+$ pk -t keywords[0]
+string
+```
+
+If a field doesn't exist, `undefined` will be printed:
+
+```shell
+$ pk -t license
+undefined
+```
+
+### Get the list of scripts
+
+`package.json`:
+
+```js
+{
+    "scripts": {
+         "start": "node server.js",
+         "build": "webpack .",
+    }
+}
+```
+
+
+Get the list of scripts along with their commands
 
 ```shell
 $ pk scripts
@@ -88,10 +187,10 @@ start   node server.js
 build   webpack .
 ```
 
-Just the script names:
+Just the script names (the autocomplete feature comes handy here)
 
 ```shell
-$ pk scripts --keys
+$ pk scripts -k
 start
 build
 ```
@@ -99,89 +198,224 @@ build
 In JSON format:
 
 ```shell
-$ pk scripts --json
+$ pk scripts -j
 {
     "start": "node server.js",
     "build": "webpack ."
 }
 ```
 
-And minified JSON:
+### Minify a json file
 
-```shell
-$ pk scripts --min
-{"start":"node server.js","build":"webpack ."}
+There's no magic! It just uses native JSON module without padding.
+
+`original.json`:
+
+```js
+{
+    "name": "Alex"
+    "city": "Stockholm"
+}
 ```
 
-### check the type of the keywords field
+Minify it and show the output
 
 ```shell
-$ pk --type keywords
-array
+$ pk -i original.json -m
+{"name":"Alex","city":"Stockholm"}
 ```
 
-If `keywords` doesn't exist, `undefined` will be printed:
+Write the output to a file
 
 ```shell
-# many switches have a short hand: -t is the same as --type
-$ pk -t keywords
-undefined
+$ pk -i original.json -m > original.min.json
 ```
 
-### Count the number of dev dependencies
+### Prettify a minified or badly formatted JSON
+
+`original.json`:
+
+```js
+{"name": "Alex"
+    "city": "Stockholm",      "keywords": ["javascript", "golang",
+"vuejs"]
+}
+```
+
+Show it pretty on screen
+
+```shell
+$ pk -i original.json -j
+{
+    "name": "Alex"
+    "city": "Stockholm",
+    "keywords": [
+        "javascript",
+        "golang",
+        "vuejs"
+    ]
+}
+```
+
+If the output is too big you may wanna browse it on the terminal
+
+```shell
+$ pk -i original.json -j | less
+```
+
+Or just write it to a file
+
+```shell
+$ pk -i original.json -j > original-prettified.json
+```
+
+Even overwrite the original file
+
+```shell
+$ pk -i original.json -j > original.json
+```
+
+### Count the number of `devDependencies`
+
+`package.json`:
+
+```js
+{
+    "devDependencies": {
+         "mocha": "*",
+         "babel": "*",
+         "micromustache": "*",
+         "webpack": "*",
+    }
+}
+```
 
 ```shell
 $ pk devDependencies -c
+4
 ```
 
-### Get the keywords in a sorted order
+package-lock.json is nutorious!
 
 ```shell
-$ pk keywords | sort
+$ pk -i package-lock.json dependencies -c
+2739
 ```
 
-# Reference
+If you're referring to an array, it'll return the size of the array
 
-See the [command reference](./COMMANDS.txt) or use `pk --help`.
+```shell
+$ pk -c keywords
+3
+```
+
+### Get part of a JSON file
+
+`package.json`:
+```js
+{
+    ...
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/userpixel/pk.git"
+    }
+}
+```
+
+Get the value of the repository 
+
+```shell
+$ pk -j repository
+{
+  "type": "git",
+  "url": "git+https://github.com/userpixel/pk.git"
+}
+```
+
+### Working with versions
+
+`package.json`:
+
+```js
+{
+    "version": "1.2.3"
+}
+```
+
+Just get the version string
+
+```shell
+$ pk version
+1.2.3
+```
+
+Parse it as semver
+
+```shell
+$ pk -s version
+major   1
+minor   2
+patch   3
+```
+
+You can actually omit "version" part if that's where it is
+
+```shell
+$ pk -s
+major   1
+minor   2
+patch   3
+```
+
+Yep you can get it in JSON format if you want
+
+```shell
+$ pk -s version
+{
+  "major": 0,
+  "minor": 2,
+  "patch": 4
+}
+```
+
+It understands watever semver can parse so if the version was "4.3.2-beta.2+build1000"
+
+```shell
+$ pk -s
+major	4
+minor	3
+patch	2
+build	["build1000"]
+prerelease	["beta",2]
+```
+
+# More
+
+There's more. See the help for the command reference
+
+```shell
+$ pk --help`.
+```
+
+# Update
+
+```shell
+# Check the version
+$ pk --version
+
+# Update it if needed
+$ npm i -g pk@latest`
+```
+
+# Uninstall
+
+```shell
+# Uninstall it globally (you may need sudo permission on Linux)
+$ npm un -g pk
+```
 
 # License
 
 MIT
 
-
-Count the number of dependencies in package-lock
-pk -i package-lock.json dependencies -c
-
-Check the version number detail according to semver
-pk -s
-
-Autocompletion script
-Linux: pk bashcomp >> ~/.bashrc
-Mac: pk bashcomp >> ~/.bash_profile
-
-Minify the whole file
-pk -i some-file.json -m
-
-get the list of scripts
-pk scripts -k
-
-get package name
-pk name
-
-Check the type of a particular field
-pk keywords -t
-
-get the version number
-pk version
-
-parse version according to semver spec
-pk -s
-
-get the number of devDependencies
-pk devDependencies -c
-
-format the file to human readable json
-pk -i some-file.json -j
-
-get a part of the json file
-pk repository -j
+_Made in Sweden by [@alexewerlof](https://twitter.com/alexewerlof)_
