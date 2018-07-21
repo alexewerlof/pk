@@ -6,6 +6,7 @@ const fs = require('fs');
 const yargs = require('yargs');
 const _get = require('lodash.get')
 const debug = require('debug');
+const didyoumean = require('didyoumean');
 const filter = require('../lib/filter');
 const format = require('../lib/format');
 const completion = require('../lib/completion');
@@ -81,7 +82,7 @@ const argv = yargs
 log(argv)
 
 function readJSON(fileName) {
-    log('Reading file from path', fileName)
+    log('Reading file', fileName)
     return JSON.parse(fs.readFileSync(fileName, 'utf8'))
 }
 
@@ -89,7 +90,20 @@ let what;
 try {
     const path = argv._[0];
     log(path ? `Path is ${path}` : 'There is no path. Operating on the whole file.');
-    let result = path ? _get(readJSON(argv.in), path) : readJSON(argv.in);
+    const jsonContents = readJSON(argv.in);
+    let result = jsonContents;
+    if (path) {
+        result = _get(jsonContents, path)
+        if (result === undefined) {
+            log(`Could not lookup the path "${path}"`)
+            didyoumean.threshold = 0.5
+            const possiblePaths = didyoumean(path, completion.getKeys(jsonContents))
+            if (possiblePaths) {
+                throw new Error(`There is no "${path}". Did you mean:\n${possiblePaths}`)
+            }
+            throw new Error(`Path not found: ${path}`)
+        }
+    }
     if (argv.key && argv.val) {
         log('Both keys are values are desired');
         what = result
