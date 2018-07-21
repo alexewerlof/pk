@@ -45,8 +45,9 @@ $ pk --help
 `pk bashcomp`generates the bash auto complete command
 You need to add this script to your bash initialization:
 
-* On Linux  `$ pk bashcomp >> ~/.bashrc`
-* On mac  `$ pk bashcomp >> ~/.bash_profile`
+* On Linux:  `$ pk bashcomp >> ~/.bashrc`
+* On Mac OS X:  `$ pk bashcomp >> ~/.bash_profile`
+* Windows Subsystem for Linux: `$ pk bashcomp >> ~/.bashrc`
 
 Then you need to restart a bash session for this to take effect.
 
@@ -74,7 +75,7 @@ If there is no main field nothing will be returned.
 }
 ```
 
-Get the list of scripts along with their commands:
+Get the list of all scripts along with their commands:
 
 ```shell
 $ pk scripts
@@ -82,7 +83,7 @@ start   node server.js
 build   webpack .
 ```
 
-Just the script names (the autocomplete feature comes handy here):
+Just the script names (object keys `-k`):
 
 ```shell
 $ pk scripts -k
@@ -90,14 +91,20 @@ start
 build
 ```
 
-In JSON format:
+Just the values:
 
 ```shell
-$ pk scripts -j
-{
-    "start": "node server.js",
-    "build": "webpack ."
-}
+$ pk scripts -v
+node server.js
+webpack .
+```
+
+pk is designed with Unix philosophy in mind and plays nice with other tools.
+Want to see which script has the word "server" in it? Grep it:
+
+```shell
+$ pk scripts | grep server
+start   node server.js
 ```
 
 #### Nested objects
@@ -125,7 +132,7 @@ Just press <kbd>TAB</kbd><kbd>TAB</kbd> after istalling the command line complet
 
 ### Working with arrays
 
-`package.json`
+`package.json`:
 
 ```js
 {
