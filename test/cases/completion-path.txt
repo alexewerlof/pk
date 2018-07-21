@@ -1,0 +1,6 @@
+generates path completion for a sample string
+pk --get-yargs-completions sc
+scripts
+scripts.build
+scripts.start
+scripts.build:dev

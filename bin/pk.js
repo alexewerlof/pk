@@ -69,7 +69,7 @@ const argv = yargs
     .completion('bashcomp', function (current, argv) {
         try {
             log('current:', current, 'argv:', argv)
-            return completion.fromObjFiltered(readJSON(argv.i), current)
+            return completion.pathCompletion(readJSON(argv.i), current)
         } catch(e) {
             log(e)
             return [];

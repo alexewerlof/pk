@@ -1,0 +1,13 @@
+generates path completion even without a path
+pk --get-yargs-completions
+name
+license
+scripts
+version
+dependencies
+scripts.build
+scripts.start
+devDependencies
+scripts.build:dev
+devDependencies.mocha
+dependencies.micromustache
