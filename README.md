@@ -391,6 +391,18 @@ patch	2
 build	["build1000"]
 prerelease	["beta",2]
 ```
+### Command Substitution 
+
+pk is ideal for CI/CD scripts and that was the original motivation for its creation.
+For example if you want to compress the current directory and version it you can:
+
+```shell
+$ zip -r `pk name`-`pk version`.zip .
+```
+
+This will zip the current directory to a file that is name `NAME-VERSION.zip`
+where `NAME` and `VERSION` in the file name come from `"name"` and `"version"`
+fields in the local `package.json`.
 
 # More
 
