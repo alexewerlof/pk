@@ -23,6 +23,7 @@
 * The default output is compatible with Unix text processing utils 👓 (`wc`, `sort`, `grep`, `uniq`, `comm`, `shuf`, `paste`, `column`, `pr`, `fold`, `cmp`, `diff`, [etc.](https://github.com/learnbyexample/Command-line-text-processing))
 * Tiny, super quick, 100% Javascript 🦄
 * Autocomplete (see 👇)
+* Correction suggestion (typos in the path) 😅
 
 By default it operates on _**p**ac**k**age.json_ where its name comes from but you can specify
 any input file using the `-i FILE.json` option.
