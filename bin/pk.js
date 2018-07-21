@@ -65,6 +65,7 @@ const argv = yargs
     .example('pk name', 'prints the value of "name" key from the current "package.json" file')
     .version()
     .help()
+    .epilogue('Bugs and feature requests: https://github.com/userpixel/pk/issues')
     .completion('bashcomp', function (current, argv) {
         try {
             log('current:', current, 'argv:', argv)
