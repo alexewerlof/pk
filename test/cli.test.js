@@ -27,7 +27,7 @@ function runCli(args) {
 }
 
 async function readTestCase(fileName) {
-    const testCase = (await readFile(relPath('cases', fileName))).toString();
+    const testCase = await readFile(relPath('cases', fileName), 'utf8');
     const testCaseLines = testCase.split('\n');
     assert.ok(testCaseLines.length >= 3, `test case should contain description, params and expected output ${testCase}`);
     const [ desc, args, ...output ] = testCaseLines;
