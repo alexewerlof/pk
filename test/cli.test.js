@@ -18,7 +18,9 @@ function runCli(args) {
             timeout: 2000, //msec
         }, (error, stdout, stderr) => {
             assert.ifError(error);
-            assert.ifError(stderr);
+            if (stderr) {
+                assert.fail(`Something was printed to standard output: ${stderr}`);
+            }
             resolve(stdout);
         });
     });
